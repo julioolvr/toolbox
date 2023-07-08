@@ -1,3 +1,4 @@
+import { Container, Title, Text, SimpleGrid, Card } from '@mantine/core'
 import type { FindToolboxQuery, FindToolboxQueryVariables } from 'types/graphql'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
@@ -39,21 +40,30 @@ export const Success = ({
   toolbox,
 }: CellSuccessProps<FindToolboxQuery, FindToolboxQueryVariables>) => {
   return (
-    <div>
-      <h1>{toolbox.name}</h1>
-      <p>{toolbox.description}</p>
+    <Container>
+      <Title>{toolbox.name}</Title>
+      <Text>{toolbox.description}</Text>
 
-      <ul>
+      <SimpleGrid cols={3}>
         {toolbox.tools.map((toolboxTool) => (
-          <li key={toolboxTool.id}>
-            <a href={toolboxTool.tool.url} target="_blank" rel="noreferrer">
-              {toolboxTool.tool.name}
-            </a>
-            : {toolboxTool.tool.description}
-            {toolboxTool.comment ? <p>{toolboxTool.comment}</p> : undefined}
-          </li>
+          <Card
+            key={toolboxTool.id}
+            withBorder
+            shadow="sm"
+            radius="md"
+            component="a"
+            target="_blank"
+            href={toolboxTool.tool.url}
+            rel="noreferrer"
+          >
+            <Title order={3}>{toolboxTool.tool.name}</Title>
+            <Text>{toolboxTool.tool.description}</Text>
+            <Text>
+              {toolboxTool.comment ? <p>{toolboxTool.comment}</p> : undefined}
+            </Text>
+          </Card>
         ))}
-      </ul>
-    </div>
+      </SimpleGrid>
+    </Container>
   )
 }
