@@ -19,10 +19,12 @@ model Toolbox {
 }
 
 model Tool {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   name        String
   description String
   url         String
+  color       String?
+  mainImage   String?
 
   ToolboxTool ToolboxTool[]
 }

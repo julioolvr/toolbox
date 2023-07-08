@@ -4,6 +4,8 @@ export const schema = gql`
     name: String!
     description: String!
     url: String!
+    color: String
+    mainImage: String
     ToolboxTool: [ToolboxTool]!
   }
 

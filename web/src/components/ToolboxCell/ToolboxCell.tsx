@@ -1,4 +1,13 @@
-import { Container, Title, Text, SimpleGrid, Card } from '@mantine/core'
+import {
+  Container,
+  Title,
+  Text,
+  Stack,
+  Image,
+  Group,
+  Paper,
+  Box,
+} from '@mantine/core'
 import type { FindToolboxQuery, FindToolboxQueryVariables } from 'types/graphql'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
@@ -17,6 +26,8 @@ export const QUERY = gql`
           name
           description
           url
+          color
+          mainImage
         }
       }
       user {
@@ -44,26 +55,38 @@ export const Success = ({
       <Title>{toolbox.name}</Title>
       <Text>{toolbox.description}</Text>
 
-      <SimpleGrid cols={3}>
+      <Stack>
         {toolbox.tools.map((toolboxTool) => (
-          <Card
+          <Paper
             key={toolboxTool.id}
-            withBorder
             shadow="sm"
             radius="md"
-            component="a"
-            target="_blank"
-            href={toolboxTool.tool.url}
-            rel="noreferrer"
+            sx={(theme) => ({
+              overflow: 'hidden',
+              border: '1px solid',
+              borderColor: toolboxTool.tool.color || theme.colors.gray[4],
+            })}
           >
-            <Title order={3}>{toolboxTool.tool.name}</Title>
-            <Text>{toolboxTool.tool.description}</Text>
-            <Text>
-              {toolboxTool.comment ? <p>{toolboxTool.comment}</p> : undefined}
-            </Text>
-          </Card>
+            <Group>
+              <Box>
+                <Image
+                  src={toolboxTool.tool.mainImage}
+                  sx={{ maxWidth: '14rem' }}
+                />
+              </Box>
+              <Stack>
+                <Title order={3}>{toolboxTool.tool.name}</Title>
+                <Text c="dimmed" fz="sm">
+                  {toolboxTool.tool.description}
+                </Text>
+                {toolboxTool.comment ? (
+                  <Text>{toolboxTool.comment}</Text>
+                ) : undefined}
+              </Stack>
+            </Group>
+          </Paper>
         ))}
-      </SimpleGrid>
+      </Stack>
     </Container>
   )
 }
