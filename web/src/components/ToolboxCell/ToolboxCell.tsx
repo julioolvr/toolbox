@@ -7,7 +7,10 @@ import {
   Group,
   Paper,
   Box,
+  Anchor,
+  TypographyStylesProvider,
 } from '@mantine/core'
+import ReactMarkdown from 'react-markdown'
 import type { FindToolboxQuery, FindToolboxQueryVariables } from 'types/graphql'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
@@ -61,6 +64,7 @@ export const Success = ({
             key={toolboxTool.id}
             shadow="sm"
             radius="md"
+            px="md"
             sx={(theme) => ({
               overflow: 'hidden',
               border: '1px solid',
@@ -68,19 +72,28 @@ export const Success = ({
             })}
           >
             <Group>
-              <Box>
-                <Image
-                  src={toolboxTool.tool.mainImage}
-                  sx={{ maxWidth: '14rem' }}
-                />
-              </Box>
+              {toolboxTool.tool.mainImage ? (
+                <Box>
+                  <Image
+                    src={toolboxTool.tool.mainImage}
+                    sx={{ maxWidth: '14rem' }}
+                  />
+                </Box>
+              ) : undefined}
               <Stack>
-                <Title order={3}>{toolboxTool.tool.name}</Title>
+                <Stack spacing={0}>
+                  <Title order={3}>{toolboxTool.tool.name}</Title>
+                  <Anchor fz="sm" href={toolboxTool.tool.url} target="_blank">
+                    {toolboxTool.tool.url}
+                  </Anchor>
+                </Stack>
                 <Text c="dimmed" fz="sm">
                   {toolboxTool.tool.description}
                 </Text>
                 {toolboxTool.comment ? (
-                  <Text>{toolboxTool.comment}</Text>
+                  <TypographyStylesProvider>
+                    <ReactMarkdown>{toolboxTool.comment}</ReactMarkdown>
+                  </TypographyStylesProvider>
                 ) : undefined}
               </Stack>
             </Group>
