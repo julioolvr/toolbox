@@ -1,4 +1,5 @@
 import type { Prisma, Toolbox } from '@prisma/client'
+
 import type { ScenarioData } from '@redwoodjs/testing/api'
 
 export const standard = defineScenario<Prisma.ToolboxCreateArgs>({
