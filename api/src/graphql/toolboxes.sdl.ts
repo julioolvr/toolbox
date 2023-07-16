@@ -10,7 +10,7 @@ export const schema = gql`
 
   type Query {
     toolboxes: [Toolbox!]! @requireAuth
-    toolbox(id: String!): Toolbox @requireAuth
+    toolbox(id: String!): Toolbox @skipAuth
   }
 
   input CreateToolboxInput {

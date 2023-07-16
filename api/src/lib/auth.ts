@@ -1,14 +1,11 @@
+import { AuthenticationError } from '@redwoodjs/graphql-server'
+
 /**
- * Once you are ready to add authentication to your application
- * you'll build out requireAuth() with real functionality. For
- * now we just return `true` so that the calls in services
- * have something to check against, simulating a logged
- * in user that is allowed to access that service.
- *
- * See https://redwoodjs.com/docs/authentication for more info.
+ * TODO: Actually implement auth. For now, no one is authenticated and therefore
+ * only public resources are available
  */
 export const isAuthenticated = () => {
-  return true
+  return false
 }
 
 export const hasRole = ({ roles }) => {
@@ -21,5 +18,7 @@ export const hasRole = ({ roles }) => {
 // Roles are passed in by the requireAuth directive if you have auth setup
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const requireAuth = ({ roles }) => {
-  return isAuthenticated()
+  if (!isAuthenticated()) {
+    throw new AuthenticationError("You're not authenticated.")
+  }
 }
